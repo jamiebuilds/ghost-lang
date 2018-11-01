@@ -591,6 +591,12 @@ export let PI = 3.14
 
 ## Type Syntax
 
+### Type Alias
+
+```coffee
+type MyType = type
+```
+
 ### Basic Types
 
 ```coffee
@@ -655,4 +661,43 @@ type MyType =
   | String
   | Boolean
   | Range
+```
+
+## Types in Syntax
+
+### Variables
+
+```coffee
+let value: Boolean = true
+let value: Boolean | String = 'cool'
+```
+
+### Functions
+
+```coffee
+let fn = fn (param1: String, param2: Number) {
+  # ...
+}
+
+let fn = fn (...rest: Array<String>) {
+  # ...
+}
+
+let fn = fn (): String {
+  'nice'
+}
+
+let fn = fn (): Iter<String> iter {
+  yield 'good'
+}
+
+let fn = fn (): Async<String> async {
+  await sleep(100)
+  'cool'
+}
+
+let fn = fn (): AsyncIter<String> async iter {
+  await sleep(100)
+  yield 'awesome'
+}
 ```
