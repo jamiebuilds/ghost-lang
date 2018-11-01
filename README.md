@@ -567,11 +567,13 @@ type MyType = Regex
 type MyType = Range
 type MyType = Symbol
 type MyType = :symbol
-type MyType = Iter<any>
 type MyType = List<String>
 type MyType = Array<Boolean>
 type MyType = Map<Number, Regex>
 type MyType = Set<Range>
+type MyType = Iter<String>
+type MyType = Async<Number>
+type MyType = AsyncIter<Boolean>
 ```
 
 ### Record Types
@@ -593,6 +595,9 @@ type MyType = Boolean | null # same
 
 ```coffee
 type MyType = fn (param: String): Number
+type MyType = fn (param: String): Iter<Number>       # fn () iter {}
+type MyType = fn (param: String): Async<Number>      # fn () async {}
+type MyType = fn (param: String): AsyncIter<Number>  # fn () async iter {}
 ```
 
 ### Generics
