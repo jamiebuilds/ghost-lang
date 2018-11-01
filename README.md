@@ -506,13 +506,16 @@ let MyComponent = fn (props) {
 import Time
 Time.Instant()
 
-import Math { cos, PI }
+import Time as MyTime
+MyTime.Instant()
+
+import Math as { cos, PI }
 cos(PI)
 
 import ./utils/currency
 currency.convert(42, :usd, :aud)
 
-import ../lib/utils/i18n { t }
+import ../lib/utils/i18n as { t }
 t('Hello $1', 'World')
 ```
 
