@@ -289,6 +289,11 @@ let {one, two, ...rest} = {one: 1, two: 2, three: 3, four: 4}
 # one = 1
 # two = 2
 # rest = {three: 3, four: 4}
+
+let {one as uno, two as dos, ...rest as resto} = {one: 1, two: 2, three: 3, four: 4}
+# uno = 1
+# dos = 2
+# resto = {three: 3, four: 4}
 ```
 
 ### Is
@@ -503,6 +508,23 @@ let result =
   |> Iter.filter(^^, fn (num) { book.popularity > 0.8 })
   |> Iter.map(^^, fn (num) { Http.request(:GET, book.url) })
   |> await Promise.all(^^)
+```
+
+### Junk
+
+```coffee
+let _ = 'ignore me'
+let [_, _, three] = [1, 2, 3]
+let {a as _, b as _, ...rest as _} = { a: 1, b: 2, c: 3, d: 4 }
+
+doSomething(fn (_, _, value) {
+  value
+})
+
+log(_)
+# SyntaxError: "Junk" bindings (_) are not valid
+# identifiers and cannot be referenced. Give your
+# binding a name instead.
 ```
 
 ### Elements (GSX)
