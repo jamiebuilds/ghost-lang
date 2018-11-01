@@ -472,6 +472,29 @@ let traverse = fn (node, visit) async iter {
 }
 ```
 
+### Do
+
+```coffee
+let value = do {
+  let a = 42
+  let b = 10
+  a * b
+}
+```
+
+### Do Async
+
+```coffee
+let asyncValue = do async {
+  let a = 42
+  let b = 10
+  await sleep(100)
+  a * b
+}
+
+let value = await asyncValue
+```
+
 ### Pipeline
 
 ```coffee
