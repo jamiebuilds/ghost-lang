@@ -485,6 +485,14 @@ let value = do {
   let b = 10
   a * b
 }
+
+let fn = fn () async {
+  let value = do {
+    await sleep(100)
+    42
+  }
+  assert(value is 42)
+}
 ```
 
 ### Do Async
@@ -498,6 +506,16 @@ let asyncValue = do async {
 }
 
 let value = await asyncValue
+
+let fn = fn () async {
+  let asyncValue = do async {
+    await sleep(100)
+    42
+  }
+  assert(asyncValue is Async<42>)
+  let value = await asyncValue
+  assert(asyncValue is 42)
+}
 ```
 
 ### Pipeline
