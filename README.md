@@ -1,4 +1,4 @@
-# Ghost Lang
+# Ghost Lang 👻
 
 A friendly little language for you and me.
 
