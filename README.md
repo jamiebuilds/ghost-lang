@@ -524,7 +524,7 @@ let fn = fn () async {
 let result =
   |> books
   |> Iter.filter(^^, fn (num) { book.popularity > 0.8 })
-  |> Iter.map(^^, fn (num) { Http.request(:GET, book.url) })
+  |> Iter.map(^^, fn (num) { Http.request(:get, book.url) })
   |> await Promise.all(^^)
 ```
 
