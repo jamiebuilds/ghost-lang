@@ -434,17 +434,22 @@ let result = add(400, 20)
 ### Named Params
 
 ```coffee
-let add = fn (addend, augend) {
-  addend + augend
+let divide = fn (dividend, divisor) {
+  dividend / divisor
 }
 
-let result = add(400, 20)
-let result = add(addend: 400, augend: 20)
-let result = add(augend: 400, addend: 20)
-let result = add(400, augend: 20)
-let result = add(augend: 20, 400)
-```
+# All of these are equivalent:
+divide(400, 20)
+divide(dividend: 400, divisor: 20)
+divide(divisor: 400, dividend: 20)
+divide(dividend: 400, 20)
+divide(400, divisor: 20)
+divide(divisor: 20, 400)
 
+# Compiler Errors: Cannot pass multiple values to the same parameter
+divide(dividend: 20, dividend: 400)
+divide(20, dividend: 400)
+```
 
 ### Iterable Functions
 
