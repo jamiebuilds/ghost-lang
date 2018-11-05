@@ -528,6 +528,28 @@ let result =
   |> await Promise.all(^^)
 ```
 
+### Use
+
+```coffee
+let fn = fn () {
+  let lock = use File.lock(resource)
+  doSomethingWith(resource)
+}
+
+# Effectively:
+
+let fn = fn () {
+  let mut lock = null
+  try {
+    let lock = File.lock(resource)
+    let result = doSomethingWith(resource)
+  } finally {
+    if (lock) lock.dispose()
+  }
+  result
+}
+```
+
 ### Junk
 
 ```coffee
@@ -556,7 +578,7 @@ let MyComponent = fn (props) {
     <:h1>"hello {target}"</:h1>
     <:ul>
       for (items as item) {
-        <:li>item.name</:li>
+        <:li { key: item.id }>item.name</:li>
       }
     </:ul>
   </OtherComponent>
