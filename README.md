@@ -539,9 +539,8 @@ let fn = fn () {
 # Effectively:
 
 let fn = fn () {
-  let mut lock = null
+  let lock = File.lock(resource)
   try {
-    let lock = File.lock(resource)
     let result = doSomethingWith(resource)
   } finally {
     if (lock) lock.dispose()
