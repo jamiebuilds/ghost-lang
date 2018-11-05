@@ -532,12 +532,12 @@ let fn = fn () async {
 ```coffee
 let result =
   |> books
-  |> Iter.filter(^^, fn (num) { book.popularity > 0.8 })
+  |> Iter.filter(^^, fn (book) { book.popularity > 0.8 })
   |> Iter.map(^^, fn (book) { Http.request(:get, book.url) })
   |> await Async.all(^^)
 
 # Equivalent code without pipelines:
-let filtered = Iter.filter(books, fn (num) { book.popularity > 0.8 })
+let filtered = Iter.filter(books, fn (book) { book.popularity > 0.8 })
 let requests = Iter.map(filtered, fn (book) { Http.request(:get, book.url) })
 let result = await Async.all(requests)
 ```
