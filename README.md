@@ -441,7 +441,7 @@ let divide = fn (dividend, divisor) {
 # All of these are equivalent:
 divide(400, 20)
 divide(dividend: 400, divisor: 20)
-divide(divisor: 400, dividend: 20)
+divide(divisor: 20, dividend: 400)
 divide(dividend: 400, 20)
 divide(400, divisor: 20)
 divide(divisor: 20, 400)
