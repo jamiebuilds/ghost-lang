@@ -533,8 +533,13 @@ let fn = fn () async {
 let result =
   |> books
   |> Iter.filter(^^, fn (num) { book.popularity > 0.8 })
-  |> Iter.map(^^, fn (num) { Http.request(:get, book.url) })
-  |> await Promise.all(^^)
+  |> Iter.map(^^, fn (book) { Http.request(:get, book.url) })
+  |> await Async.all(^^)
+
+# Equivalent code without pipelines:
+let filtered = Iter.filter(books, fn (num) { book.popularity > 0.8 })
+let requests = Iter.map(filtered, fn (book) { Http.request(:get, book.url) })
+let result = await Async.all(requests)
 ```
 
 ### Use
@@ -591,6 +596,59 @@ let MyComponent = fn (props) {
     </:ul>
   </OtherComponent>
 }
+```
+
+### Blocks
+
+```coffee
+let fn = fn () {
+  # block
+}
+
+for (iter as item) {
+  # block
+}
+
+if (cond) {
+  # block
+} else if (cond) {
+  # block
+} else {
+  # block
+}
+
+try {
+  # block
+} catch (err) {
+  # block
+} finally {
+  # block
+}
+```
+
+### Block Scoping
+
+```coffee
+let a = 1
+if (cond) {
+  let a = 2
+  let b = 3
+  log(a) # > 2
+}
+log(a) # > 1
+log(b) # Error! There's no variable named "b" in this scope!
+```
+
+### Async Blocks
+
+```coffee
+# TODO
+```
+
+### Iterable Blocks
+
+```coffee
+# TODO
 ```
 
 ### Imports
