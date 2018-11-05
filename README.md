@@ -36,7 +36,7 @@ developers.
 # combine to make multiline
 ```
 
-### Variables
+### Declarations
 
 ```coffee
 let name = expression
@@ -199,9 +199,10 @@ let set = {-
 -}
 ```
 
-### Arithmetic
+### Operators
 
 ```coffee
+# Arithmetic
 let addition = a + b
 let subtraction = a - b
 let division = a / b
@@ -209,11 +210,8 @@ let multiplication = a * b
 let remainder = a % b
 let exponentiation = a ** b
 let negation = -a
-```
 
-### Bitwise
-
-```coffee
+# Bitwise
 let and = a & b
 let or = a | b
 let xor = a ^ b
@@ -221,26 +219,17 @@ let not = ~a
 let leftShift = a << b
 let signPropRightShift = a >> b
 let zeroFillRightShift = a >>> b
-```
 
-### Comparison
-
-```js
+# Comparison
 let equality = a == b
 let referentialEquality = a === b
-```
 
-### Logical Operators
-
-```coffee
+# Logical
 let and = expr && expr
 let or = expr || expr
 let not = !expr
-```
 
-### Grouping
-
-```coffee
+# Grouping
 let either = (a && b) || (c && d)
 ```
 
@@ -441,6 +430,21 @@ let add = fn (a, b) {
 
 let result = add(400, 20)
 ```
+
+### Named Params
+
+```coffee
+let add = fn (addend, augend) {
+  addend + augend
+}
+
+let result = add(400, 20)
+let result = add(addend: 400, augend: 20)
+let result = add(augend: 400, addend: 20)
+let result = add(400, augend: 20)
+let result = add(augend: 20, 400)
+```
+
 
 ### Iterable Functions
 
