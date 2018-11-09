@@ -224,6 +224,18 @@ let zeroFillRightShift = a >>> b
 let equality = a == b
 let referentialEquality = a === b
 
+let lessThan = a < b
+let lessThan2 = a < b < c # equivalent to `a < b && b < c`, except `b` is only evaluated once
+let lte = a <= b
+let lte2 = a <= b <= c
+let lessThan3 = a <= b < c
+
+let greaterThan = a > b
+let greaterThan2 = a > b > c
+let gte = a >= b
+let gte2 = a >= b >= c
+let greaterThan3 = a >= b > c
+
 # Logical
 let and = expr && expr
 let or = expr || expr
