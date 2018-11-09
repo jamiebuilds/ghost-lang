@@ -123,6 +123,9 @@ let reverseWithNegatives = 2..-3   # 2,1,0,-1,-2
 ```coffee
 let symbol1 = :name # symbols are global
 let symbol2 = :name # both of these are equal
+let symbol3 = :'a name' # use quotes for symbol names that aren’t valid identifiers
+let symbol4 = ::local # Local symbol name
+let symbol4 = ::local # symbol4 != symbol5
 ```
 
 ### Lists
