@@ -461,31 +461,6 @@ let doubles = fn (range) iter {
 }
 ```
 
-### Async Functions
-
-```coffee
-let series = fn (tasks) async {
-  for (tasks as task) {
-    await task()
-  }
-}
-```
-
-### Async Iterable Functions
-
-```coffee
-let traverse = fn (node, visit) async iter {
-  yield await visit(node)
-
-  for (node.children as child) {
-    let results = await traverse(child)
-    for (results as result) {
-      yield result
-    }
-  }
-}
-```
-
 ### Do
 
 ```coffee
@@ -501,29 +476,6 @@ let fn = fn () async {
     42
   }
   assert(value is 42)
-}
-```
-
-### Do Async
-
-```coffee
-let asyncValue = do async {
-  let a = 42
-  let b = 10
-  await sleep(100)
-  a * b
-}
-
-let value = await asyncValue
-
-let fn = fn () async {
-  let asyncValue = do async {
-    await sleep(100)
-    42
-  }
-  assert(asyncValue is Async<42>)
-  let value = await asyncValue
-  assert(asyncValue is 42)
 }
 ```
 
@@ -545,21 +497,30 @@ let result = await Async.all(requests)
 ### Use
 
 ```coffee
-let fn = fn () {
-  let lock = use File.lock(resource)
-  doSomethingWith(resource)
+let append = fn (fileName, buffer) {
+  let file = use File.open(fileName)
+  File.append(file, buffer)
 }
 
 # Effectively:
-
-let fn = fn () {
-  let lock = File.lock(resource)
+let append = fn (fileName, buffer) {
+  let file = File.open(fileName)
   try {
-    let result = doSomethingWith(resource)
+    let result = File.append(file, buffer)
   } finally {
-    if (lock) lock.dispose()
+    if (file) {
+      file.dispose()
+    }
   }
   result
+}
+```
+
+```coffee
+let append = fn (fileName, buffer) {
+  let file = use File.open(fileName)
+  File.append(file, buffer)
+  file.dispose()
 }
 ```
 
@@ -637,12 +598,6 @@ if (cond) {
 }
 log(a) # > 1
 log(b) # Error! There's no variable named "b" in this scope!
-```
-
-### Async Blocks
-
-```coffee
-# TODO
 ```
 
 ### Iterable Blocks
