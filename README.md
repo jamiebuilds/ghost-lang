@@ -469,29 +469,19 @@ let value = do {
   let b = 10
   a * b
 }
-
-let fn = fn () async {
-  let value = do {
-    await sleep(100)
-    42
-  }
-  assert(value is 42)
-}
 ```
 
 ### Pipeline
 
 ```coffee
-let result =
+let results =
   |> books
   |> Iter.filter(^^, fn (book) { book.popularity > 0.8 })
   |> Iter.map(^^, fn (book) { Http.request(:get, book.url) })
-  |> await Async.all(^^)
 
 # Equivalent code without pipelines:
 let filtered = Iter.filter(books, fn (book) { book.popularity > 0.8 })
-let requests = Iter.map(filtered, fn (book) { Http.request(:get, book.url) })
-let result = await Async.all(requests)
+let results = Iter.map(filtered, fn (book) { Http.request(:get, book.url) })
 ```
 
 ### Use
@@ -600,12 +590,6 @@ log(a) # > 1
 log(b) # Error! There's no variable named "b" in this scope!
 ```
 
-### Iterable Blocks
-
-```coffee
-# TODO
-```
-
 ### Imports
 
 ```coffee
@@ -661,8 +645,6 @@ type MyType = Array<Boolean>
 type MyType = Map<Number, Regex>
 type MyType = Set<Range>
 type MyType = Iter<String>
-type MyType = Async<Number>
-type MyType = AsyncIter<Boolean>
 ```
 
 ### Record Types
@@ -685,8 +667,6 @@ type MyType = Boolean | null # same
 ```coffee
 type MyType = fn (param: String): Number
 type MyType = fn (param: String): Iter<Number>       # fn () iter {}
-type MyType = fn (param: String): Async<Number>      # fn () async {}
-type MyType = fn (param: String): AsyncIter<Number>  # fn () async iter {}
 ```
 
 ### Generics
@@ -732,15 +712,5 @@ let fn = fn (): String {
 
 let fn = fn (): Iter<String> iter {
   yield 'good'
-}
-
-let fn = fn (): Async<String> async {
-  await sleep(100)
-  'cool'
-}
-
-let fn = fn (): AsyncIter<String> async iter {
-  await sleep(100)
-  yield 'awesome'
 }
 ```
