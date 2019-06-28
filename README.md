@@ -58,32 +58,27 @@ let negative = false
 ### Strings
 
 ```coffee
-let plain = 'hello world'
+let plain = "hello world"
 let interpolated = "hello {target}"
-let escapes = 'hello \'world\''
+let escapes = "hello \"world\""
 
 let multiline =
-  '''
-  The quick brown fox          # comment
-  jumps over the lazy dog     \# not comment
-  '''
-let multilineWithInterpolation =
   """
   The quick {color} fox           # comment
   {action} over the lazy dog     \# not comment
   """
 let multilineWithNewlines =
-  '''
+  """
   This is the first line
   This is the second line\
   This is still the second line
-  '''
+  """
 let multilineWithIndentation =
-  '''
+  """
   This is indented by 0 spaces.
     This is indented by 2 spaces.
       This is indented by 4 spaces.
-  '''
+  """
 ```
 
 ### Numbers
@@ -118,11 +113,11 @@ let rangeExpr = 0..num             # 0 to whatever `num` is
 let reverseWithNegatives = 2..-3   # 2,1,0,-1,-2
 ```
 
-### Symbols
+### Properties
 
 ```coffee
-let symbol1 = :name # symbols are global
-let symbol2 = :name # both of these are equal
+let property1 = .name # properties are global
+let property2 = .name # both of these are equal
 ```
 
 ### Lists
@@ -145,58 +140,58 @@ let getterRange = list[0..3]
 ### Arrays
 
 ```coffee
-let array = [|1, 2, 3|]
-let trailingCommas = [|
+let array = Array [1, 2, 3]
+let trailingCommas = Array [
   1,
   2,
   3,
-|]
+]
 
 let getterIndex = array[3]
 let getterIndexNegative = array[-3]
 let getterRange = array[0..3]
 ```
 
+### Sets
+
+```coffee
+let set = Set [
+  "one",
+  "two",
+  "three",
+]
+```
+
 ### Records
 
 ```coffee
-let three = :three
+let three = .three
 
-let record = {
-  one: 1,
-  two: 2,
-  [three]: 3,
+let record = [
+  one = 1,
+  two = 2,
+  [three] = 3,
 }
 
 let one = record.one
-let two = record[:two]
+let two = record[.two]
 let three = record[three]
 
 let newRecord = {
-  one: 'default',
+  one = "default",
   ...record,
-  three: 'new value',
+  three = "new value",
 }
 ```
 
 ### Maps
 
 ```coffee
-let map = {=
-  'key1' = 'value1',
-  'key2' = 'value2',
-  3.1415 = 'π'
-=}
-```
-
-### Sets
-
-```coffee
-let set = {-
-  'one',
-  'two',
-  'three',
--}
+let map = Map {
+  "key1" = "value1",
+  "key2" = "value2",
+  3.1415 = "π"
+}
 ```
 
 ### Operators
@@ -265,11 +260,11 @@ if (condition) {
 }
 
 let result = if (n == 0) {
-  'none'
+  "none"
 } else if (n == 1) {
-  'one'
+  "one"
 } else {
-  'many'
+  "many"
 }
 ```
 
@@ -281,20 +276,20 @@ let [one, two, ...rest] = [1, 2, 3, 4]
 # two = 2
 # rest = [3, 4]
 
-let [|one, two, ...rest|] = [|1, 2, 3, 4|]
+let [one, two, ...rest] = Array [1, 2, 3, 4]
 # one = 1
 # two = 2
 # rest = [|3, 4|]
 
-let {one, two, ...rest} = {one: 1, two: 2, three: 3, four: 4}
+let {one, two, ...rest} = {one = 1, two = 2, three = 3, four = 4}
 # one = 1
 # two = 2
-# rest = {three: 3, four: 4}
+# rest = {three = 3, four = 4}
 
-let {one as uno, two as dos, ...rest as resto} = {one: 1, two: 2, three: 3, four: 4}
+let {one as uno, two as dos, ...rest as resto} = {one = 1, two = 2, three = 3, four = 4}
 # uno = 1
 # dos = 2
-# resto = {three: 3, four: 4}
+# resto = {three = 3, four = 4}
 ```
 
 ### Is
@@ -313,17 +308,17 @@ value is { prop: Number }
 
 ```coffee
 let result = match (value) {
-  is true { 'true' }
-  is false { 'false' }
-  else { 'other' }
+  is true { "true" }
+  is false { "false" }
+  else { "other" }
 }
 ```
 
 ### Throw
 
 ```coffee
-throw Error('message')
-throw Error('message', reason)
+throw Error("message")
+throw Error("message", reason)
 ```
 
 ### Try-Catch-Finally
@@ -344,52 +339,52 @@ let result = try {
 
 ```coffee
 let doSomething = fn () {
-  let myResult = effect 'myEffect'
+  let myResult = effect "myEffect"
 }
 
 let result = try {
   doSomething()
-} catch (myEffect is 'myEffect') {
-  resume 'myResult'
+} catch (myEffect is "myEffect") {
+  resume "myResult"
 }
 ```
 
 ```coffee
 let inner = fn () {
-  log('inner start')
-  let result = effect 'myEffect'
-  log('inner end', result)
+  log("inner start")
+  let result = effect "myEffect"
+  log("inner end", result)
   result
 }
 
 let outer = fn () {
-  log('outer start')
+  log("outer start")
   let result = inner()
-  log('outer end', result)
+  log("outer end", result)
   result
 }
 
 let finalResult = try {
-  log('try start')
+  log("try start")
   let result = outer()
-  log('try end', result)
+  log("try end", result)
   result
-} catch (effect is 'myEffect') {
-  log('catch start', effect)
-  let result = resume 'myEffectHandlerResult'
-  log('catch end', result)
+} catch (effect is "myEffect") {
+  log("catch start", effect)
+  let result = resume "myEffectHandlerResult"
+  log("catch end", result)
 }
 
 # log: try start
 # log: outer start
 # log: inner start
-# log: catch start 'myEffect'
-# log: inner end 'myEffectHandlerResult'
-# log: outer end 'myEffectHandlerResult'
-# log: try end 'myEffectHandlerResult'
-# log: catch end 'myEffectHandlerResult'
+# log: catch start "myEffect"
+# log: inner end "myEffectHandlerResult"
+# log: outer end "myEffectHandlerResult"
+# log: try end "myEffectHandlerResult"
+# log: catch end "myEffectHandlerResult"
 
-finalResult == 'myEffectHandlerResult'
+finalResult == "myEffectHandlerResult"
 ```
 
 ### For-As
@@ -489,11 +484,11 @@ let value = do {
 let results =
   |> books
   |> Iter.filter(^^, fn (book) { book.popularity > 0.8 })
-  |> Iter.map(^^, fn (book) { Http.request(:get, book.url) })
+  |> Iter.map(^^, fn (book) { Http.request(.get, book.url) })
 
 # Equivalent code without pipelines:
 let filtered = Iter.filter(books, fn (book) { book.popularity > 0.8 })
-let results = Iter.map(filtered, fn (book) { Http.request(:get, book.url) })
+let results = Iter.map(filtered, fn (book) { Http.request(.get, book.url) })
 ```
 
 ### Use
@@ -522,16 +517,16 @@ let append = fn (fileName, buffer) {
 let append = fn (fileName, buffer) {
   let file = use File.open(fileName)
   File.append(file, buffer)
-  file.dispose()
+  file.dispose() # manually call
 }
 ```
 
 ### Junk
 
 ```coffee
-let _ = 'ignore me'
+let _ = "ignore me"
 let [_, _, three] = [1, 2, 3]
-let {a as _, b as _, ...rest as _} = { a: 1, b: 2, c: 3, d: 4 }
+let {a as _, b as _, ...rest as _} = { a = 1, b = 2, c = 3, d = 4 }
 
 doSomething(fn (_, _, value) {
   value
@@ -550,13 +545,13 @@ let MyComponent = fn (props) {
   let {prop, items} = props
 
   <OtherComponent { prop, bar: true }>
-    let target = 'world'
-    <:h1>"hello {target}"</:h1>
-    <:ul>
+    let target = "world"
+    <.h1>"hello {target}"</.h1>
+    <.ul>
       for (items as item) {
-        <:li { key: item.id }>item.name</:li>
+        <.li { key: item.id }>item.name</.li>
       }
-    </:ul>
+    </.ul>
   </OtherComponent>
 }
 ```
@@ -615,10 +610,10 @@ import Math as { cos, PI }
 cos(PI)
 
 import ./utils/currency
-currency.convert(42, :usd, :aud)
+currency.convert(42, .usd, .aud)
 
 import ../lib/utils/i18n as { t }
-t('Hello $1', 'World')
+t("Hello $1", "World")
 ```
 
 ### Exports
@@ -645,13 +640,13 @@ type MyType = Boolean
 type MyType = true
 type MyType = false
 type MyType = String
-type MyType = 'string'
+type MyType = "string"
 type MyType = Number
 type MyType = Number.Float
 type MyType = Regex
 type MyType = Range
-type MyType = Symbol
-type MyType = :symbol
+type MyType = Property
+type MyType = .property
 type MyType = List<String>
 type MyType = Array<Boolean>
 type MyType = Map<Number, Regex>
@@ -662,7 +657,7 @@ type MyType = Iter<String>
 ### Record Types
 
 ```coffee
-type MyType = { prop: String, :symbol: Number }
+type MyType = { prop: String }
 type MyType = { prop?: String }
 type MyType = { ...OtherRecordType }
 ```
@@ -704,7 +699,7 @@ type MyType =
 
 ```coffee
 let value: Boolean = true
-let value: Boolean | String = 'cool'
+let value: Boolean | String = "cool"
 ```
 
 ### Functions
@@ -719,10 +714,10 @@ let fn = fn (...rest: Array<String>) {
 }
 
 let fn = fn (): String {
-  'nice'
+  "nice"
 }
 
 let fn = fn (): Iter<String> iter {
-  yield 'good'
+  yield "good"
 }
 ```
