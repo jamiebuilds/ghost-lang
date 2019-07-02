@@ -348,7 +348,7 @@ let doSomething = fn () {
 }
 
 let result = try {
-  fn()
+  doSomething()
 } catch (myEffect is 'myEffect') {
   resume 'myResult'
 }
