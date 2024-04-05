@@ -113,15 +113,6 @@ let regexMultiline = ///
 ///i
 ```
 
-### Ranges
-
-```coffee
-let range = 0..3                   # 0,1,2
-let rangeInclusive = 0...3         # 0,1,2,3
-let rangeExpr = 0..num             # 0 to whatever `num` is
-let reverseWithNegatives = 2..-3   # 2,1,0,-1,-2
-```
-
 ### Properties
 
 ```coffee
