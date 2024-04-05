@@ -113,85 +113,19 @@ let regexMultiline = ///
 ///i
 ```
 
-### Properties
+### Enums
 
 ```coffee
-let property1 = .name # properties are global
-let property2 = .name # both of these are equal
-```
-
-### Lists
-
-```coffee
-let list = [1, 2, 3]
-let trailingCommas = [
-  1,
-  2,
-  3,
-]
-
-let combineList = [1, ..list, 3] # fast
-let combineIter = [1, ...iter, 3] # slow
-
-let getterIndex = list[3]
-let getterRange = list[0..3]
-```
-
-### Arrays
-
-```coffee
-let array = Array [1, 2, 3]
-let trailingCommas = Array [
-  1,
-  2,
-  3,
-]
-
-let getterIndex = array[3]
-let getterIndexNegative = array[-3]
-let getterRange = array[0..3]
-```
-
-### Sets
-
-```coffee
-let set = Set [
-  "one",
-  "two",
-  "three",
-]
-```
-
-### Records
-
-```coffee
-let three = .three
-
-let record = [
-  one = 1,
-  two = 2,
-  [three] = 3,
+let Actions = enum {
+  Reset()
+  Increment(amount: Int32 = 1)
+  Decrement(amount: Int32 = 1)
 }
 
-let one = record.one
-let two = record[.two]
-let three = record[three]
-
-let newRecord = {
-  one = "default",
-  ...record,
-  three = "new value",
-}
-```
-
-### Maps
-
-```coffee
-let map = Map {
-  "key1" = "value1",
-  "key2" = "value2",
-  3.1415 = "π"
-}
+let reset = Actions.Reset()
+let increment = Actions.Increment()
+let increment2 = Actions.Increment(2)
+let decrement3 = Actions.Decrement(amount: 3)
 ```
 
 ### Operators
@@ -205,15 +139,6 @@ let multiplication = a * b
 let remainder = a % b
 let exponentiation = a ** b
 let negation = -a
-
-# Bitwise
-let and = a & b
-let or = a | b
-let xor = a ^ b
-let not = ~a
-let leftShift = a << b
-let signPropRightShift = a >> b
-let zeroFillRightShift = a >>> b
 
 # Comparison
 let equality = a == b
@@ -243,156 +168,56 @@ let either = (a && b) || (c && d)
 ### If-Else
 
 ```js
-if (condition) { doSomethingIfTruthy() }
+if condition {
+  doSomethingIfTruthy()
+}
 
-if (condition) {
+if condition {
   doSomethingIfTruthy()
 } else {
   doSomethingElse()
 }
 
-if (condition) {
+if condition {
   doSomethingIfTruthy()
-} else if (condition2) {
+} else if condition2 {
   doSomethingElseIf2Truthy()
 } else {
   doSomethingElse()
 }
 
-let result = if (n == 0) {
+let result = if n == 0 {
   "none"
-} else if (n == 1) {
+} else if n == 1 {
   "one"
 } else {
   "many"
 }
 ```
 
-### Destructuring
-
-```coffee
-let [one, two, ...rest] = [1, 2, 3, 4]
-# one = 1
-# two = 2
-# rest = [3, 4]
-
-let [one, two, ...rest] = Array [1, 2, 3, 4]
-# one = 1
-# two = 2
-# rest = [|3, 4|]
-
-let {one, two, ...rest} = {one = 1, two = 2, three = 3, four = 4}
-# one = 1
-# two = 2
-# rest = {three = 3, four = 4}
-
-let {one as uno, two as dos, ...rest as resto} = {one = 1, two = 2, three = 3, four = 4}
-# uno = 1
-# dos = 2
-# resto = {three = 3, four = 4}
-```
-
 ### Is
 
 ```coffee
-value is any
-value is true # assert any static type
-value is false
-value is Number
-value is Number.Float # return true or false if it matches
-value is { prop: any }
-value is { prop: Number }
+if value is true {}
+if value is false {}
 ```
 
 ### Match
 
 ```coffee
-let result = match (value) {
+let result = match value {
   is true { "true" }
   is false { "false" }
   else { "other" }
 }
 ```
 
-### Throw
-
-```coffee
-throw Error("message")
-throw Error("message", reason)
-```
-
-### Try-Catch-Finally
-
-```coffee
-let result = try {
-  doSomething()
-} catch (err is SpecialError) {
-  doSomethingSpecial()
-} catch (err) {
-  doSomethingElse()
-} finally {
-  doSomethingAlways()
-}
-```
-
-### Effects
-
-```coffee
-let doSomething = fn () {
-  let myResult = effect "myEffect"
-}
-
-let result = try {
-  doSomething()
-} catch (myEffect is "myEffect") {
-  resume "myResult"
-}
-```
-
-```coffee
-let inner = fn () {
-  log("inner start")
-  let result = effect "myEffect"
-  log("inner end", result)
-  result
-}
-
-let outer = fn () {
-  log("outer start")
-  let result = inner()
-  log("outer end", result)
-  result
-}
-
-let finalResult = try {
-  log("try start")
-  let result = outer()
-  log("try end", result)
-  result
-} catch (effect is "myEffect") {
-  log("catch start", effect)
-  let result = resume "myEffectHandlerResult"
-  log("catch end", result)
-}
-
-# log: try start
-# log: outer start
-# log: inner start
-# log: catch start "myEffect"
-# log: inner end "myEffectHandlerResult"
-# log: outer end "myEffectHandlerResult"
-# log: try end "myEffectHandlerResult"
-# log: catch end "myEffectHandlerResult"
-
-finalResult == "myEffectHandlerResult"
-```
-
 ### For-As
 
 ```coffee
-for (iterable as item) {
-  if (item.shouldBeSkipped) { continue }
-  if (item.shouldEndTheLoop) { break }
+for iterable as item {
+  if shouldBeSkipped(item) { continue }
+  if shouldEndTheLoop(item) { break }
   doSomething()
 }
 ```
@@ -400,27 +225,18 @@ for (iterable as item) {
 ### While
 
 ```coffee
-while (condition) {
+while condition {
   onlyRunsIfConditionIsTrue()
   repeatsAsLongAsItRemainsTrue()
 }
-```
-
-### Do-While
-
-```coffee
-do {
-  runsOnceImmediatelyRegardlessIfConditionIsTrue()
-  repeatsAsLongAsItRemainsTrue()
-} while (condition)
 ```
 
 ### Loop
 
 ```coffee
 loop {
-  if (condition1) { break }
-  if (condition2) { continue }
+  if condition1 { break }
+  if condition2 { continue }
   doSomethingInfinitelyUntilBreak()
 }
 ```
@@ -461,7 +277,7 @@ divide(20, dividend: 400)
 ### Iterable Functions
 
 ```coffee
-let doubles = fn (range) iter {
+let doubles = fn (range): Iter<Int32> {
   for (range as index) {
     yield index * 2
   }
@@ -482,43 +298,15 @@ let value = do {
 
 ```coffee
 let results =
-  |> books
-  |> Iter.filter(^^, fn (book) { book.popularity > 0.8 })
-  |> Iter.map(^^, fn (book) { Http.request(.get, book.url) })
+  | books
+  | Iter.filter(^^, fn (book) {
+      book.popularity > 0.8
+    })
+  | Iter.map(^^, fn (book) { Http.request(.get, book.url) })
 
 # Equivalent code without pipelines:
 let filtered = Iter.filter(books, fn (book) { book.popularity > 0.8 })
 let results = Iter.map(filtered, fn (book) { Http.request(.get, book.url) })
-```
-
-### Use
-
-```coffee
-let append = fn (fileName, buffer) {
-  let file = use File.open(fileName)
-  File.append(file, buffer)
-}
-
-# Effectively:
-let append = fn (fileName, buffer) {
-  let file = File.open(fileName)
-  try {
-    let result = File.append(file, buffer)
-  } finally {
-    if (file) {
-      file.dispose()
-    }
-  }
-  result
-}
-```
-
-```coffee
-let append = fn (fileName, buffer) {
-  let file = use File.open(fileName)
-  File.append(file, buffer)
-  file.dispose() # manually call
-}
 ```
 
 ### Junk
@@ -541,54 +329,43 @@ log(_)
 ### Elements (GSX)
 
 ```coffee
-let MyComponent = fn (props) {
-  let {prop, items} = props
-
-  <OtherComponent { prop, bar: true }>
-    let target = "world"
-    <.h1>"hello {target}"</.h1>
-    <.ul>
-      for (items as item) {
-        <.li { key: item.id }>item.name</.li>
-      }
-    </.ul>
-  </OtherComponent>
+let view = OtherComponent(prop, bar: true) {
+  let target = "world"
+  Text("hello {target}")
+  List {
+    for items as item {
+      Text(item.name)
+    }
+  }
 }
 ```
 
 ### Blocks
 
 ```coffee
-let fn = fn () {
+let f = fn () {
   # block
 }
 
-for (iter as item) {
+for iter as item {
   # block
 }
 
-if (cond) {
+if cond {
   # block
-} else if (cond) {
+} else if cond {
   # block
 } else {
   # block
 }
 
-try {
-  # block
-} catch (err) {
-  # block
-} finally {
-  # block
-}
 ```
 
 ### Block Scoping
 
 ```coffee
 let a = 1
-if (cond) {
+if cond {
   let a = 2
   let b = 3
   log(a) # > 2
@@ -597,30 +374,17 @@ log(a) # > 1
 log(b) # Error! There's no variable named "b" in this scope!
 ```
 
-### Imports
+### Use
 
 ```coffee
-import Time
-Time.Instant()
-
-import Time as MyTime
-MyTime.Instant()
-
-import Math as { cos, PI }
-cos(PI)
-
-import ./utils/currency
-currency.convert(42, .usd, .aud)
-
-import ../lib/utils/i18n as { t }
-t("Hello $1", "World")
+use std/time
 ```
 
-### Exports
+### Pub
 
 ```coffee
-export let add = fn (a, b) { a + b }
-export let PI = 3.14
+pub let add = fn (a, b) { a + b }
+pub let PI = 3.14
 ```
 
 ## Type Syntax
@@ -628,69 +392,69 @@ export let PI = 3.14
 ### Type Alias
 
 ```coffee
-type MyType = type
+type MyType = Bool
 ```
 
-### Basic Types
+### Primitive Types
 
 ```coffee
-type MyType = any
-type MyType = null
-type MyType = Boolean
-type MyType = true
-type MyType = false
-type MyType = String
-type MyType = "string"
-type MyType = Number
-type MyType = Number.Float
-type MyType = Regex
-type MyType = Range
-type MyType = Property
-type MyType = .property
-type MyType = List<String>
-type MyType = Array<Boolean>
-type MyType = Map<Number, Regex>
-type MyType = Set<Range>
-type MyType = Iter<String>
+type T = Empty
+type T = Never
+
+type T = Boolean
+
+type T = Int8
+type T = Int16
+type T = Int32
+type T = Int64
+type T = Int128
+type T = IntSize
+
+type T = Uint8
+type T = Uint16
+type T = Uint32
+type T = Uint64
+type T = Uint128
+type T = USize
+
+type T = Float32
+type T = Float64
 ```
 
-### Record Types
+### Maybe Types
 
 ```coffee
-type MyType = { prop: String }
-type MyType = { prop?: String }
-type MyType = { ...OtherRecordType }
+type T = Maybe<Boolean>
 ```
 
-### Optional Types
+### Result Types
 
 ```coffee
-type MyType = Boolean?
-type MyType = Boolean | null # same
+type T = Result<Boolean>
 ```
 
 ### Function Types
 
 ```coffee
-type MyType = fn (param: String): Number
-type MyType = fn (param: String): Iter<Number>       # fn () iter {}
+type T = fn (param: String): USize
+type T = fn (param: String): Iter<USize> 
 ```
 
-### Generics
+### Generic Types
 
 ```coffee
-type MyType<T> = Array<T>
-type MyType = fn <T> (param: T): T
+type T<T> = Option<T>
+type T = fn <T>(param: T): T
 ```
 
 ### Unions
 
 ```coffee
-type MyType = String | Boolean | Range
+type MyType = Int8 | Int16 | Int32
 type MyType =
-  | String
-  | Boolean
-  | Range
+  | Int8
+  | Int16
+  | Int32
 ```
 
 ## Types in Syntax
