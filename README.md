@@ -81,15 +81,24 @@ let multilineWithIndentation =
   """
 ```
 
-### Numbers
+### Integers
 
 ```coffee
-let float = 4.14
-let float32 = 4.14f
-let decimal = 0.15d
-let bigint = 9999i
+let integer = 42
+let negative = -42
+let hex = 0x2A
+let octal = 0o52
+let binary = 0b101010
+let separators = 42_000 # may only be between any two digits
+let byte = b'a' # u8 only
+```
 
-let largeNumber = 98_521_391_124i
+### Floats
+
+```coffee
+let float = 4.2 # `.` must be between digits (ex: 0.42 or 42.0)
+let negative = -4.2
+let separators = 4_000.000_002 # may only be between any two digits
 ```
 
 ### Regex
