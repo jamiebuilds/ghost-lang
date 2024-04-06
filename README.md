@@ -36,7 +36,7 @@ developers.
 # combine to make multiline
 ```
 
-### Declarations
+### Variables
 
 ```coffee
 let name = expression
