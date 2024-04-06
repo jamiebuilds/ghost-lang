@@ -113,10 +113,27 @@ let regexMultiline = ///
 ///i
 ```
 
+### Structs
+
+```coffee
+struct Rect {
+  x: Int32
+  y: Int32
+  width: Int32
+  height: Int32
+}
+
+let rect = Rect {
+  x: 10,
+  y: 20,
+  width: 1
+}
+```
+
 ### Enums
 
 ```coffee
-let Actions = enum {
+enum Actions {
   Reset()
   Increment(amount: Int32 = 1)
   Decrement(amount: Int32 = 1)
@@ -244,20 +261,22 @@ loop {
 ### Functions
 
 ```coffee
-let add = fn (a, b) { a + b }
-let add = fn (a, b) {
-  let addend = a
-  let augend = b
+fn add(a: Int32, b: Int32) {
   a + b
 }
+fn subtract(a: Int32, b: Int32) {
+  let minuend = a
+  let subtrahend = b
+  minuend - subtrahend
+}
 
-let result = add(400, 20)
+let result = add(400, subtract(42, 22))
 ```
 
 ### Named Params
 
 ```coffee
-let divide = fn (dividend, divisor) {
+fn divide(dividend: Int32, divisor: Int32) {
   dividend / divisor
 }
 
@@ -277,17 +296,21 @@ divide(20, dividend: 400)
 ### Iterable Functions
 
 ```coffee
-let doubles = fn (range): Iter<Int32> {
-  for (range as index) {
-    yield index * 2
+fn doubles(iter): Iter<Int32> {
+  for iter as value {
+    yield value * 2
   }
+}
+
+fn invalid() {
+  yield 42 # Error
 }
 ```
 
-### Do
+### Blocks
 
 ```coffee
-let value = do {
+let value = {
   let a = 42
   let b = 10
   a * b
@@ -338,40 +361,6 @@ let view = OtherComponent(prop, bar: true) {
     }
   }
 }
-```
-
-### Blocks
-
-```coffee
-let f = fn () {
-  # block
-}
-
-for iter as item {
-  # block
-}
-
-if cond {
-  # block
-} else if cond {
-  # block
-} else {
-  # block
-}
-
-```
-
-### Block Scoping
-
-```coffee
-let a = 1
-if cond {
-  let a = 2
-  let b = 3
-  log(a) # > 2
-}
-log(a) # > 1
-log(b) # Error! There's no variable named "b" in this scope!
 ```
 
 ### Use
