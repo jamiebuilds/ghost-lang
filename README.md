@@ -42,12 +42,6 @@ developers.
 let name = expression
 ```
 
-### Null
-
-```coffee
-let missing = null
-```
-
 ### Booleans
 
 ```coffee
