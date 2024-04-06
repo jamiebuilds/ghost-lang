@@ -127,16 +127,16 @@ let rect = Rect {
 ### Enums
 
 ```coffee
-enum Actions {
+enum Action {
   Reset()
   Increment(amount: Int32 = 1)
   Decrement(amount: Int32 = 1)
 }
 
-let reset = Actions.Reset()
-let increment = Actions.Increment()
-let increment2 = Actions.Increment(2)
-let decrement3 = Actions.Decrement(amount: 3)
+let reset = Action.Reset()
+let increment = Action.Increment()
+let increment2 = Action.Increment(2)
+let decrement3 = Action.Decrement(amount: 3)
 ```
 
 ### Operators
@@ -209,8 +209,9 @@ let result = if n == 0 {
 ### Is
 
 ```coffee
-if value is true {}
-if value is false {}
+if value is Action.Reset {}
+if value is Action.Increment(value) { value }
+if value is Action.Decrement(amount: value) { value }
 ```
 
 ### Match
